@@ -28,11 +28,14 @@ def read_weather_data():
     json_data = json.loads(string_data)
     return json_data
 
-def test_print():
+def find_location():
+    """
+    Returns a location data for forecast as a list. Location has form 'longitude, latitude, elevation'.
+    """
     json_data = read_weather_data()
-    for i in json_data:
-        print(i)
+    location = json_data['geometry']['coordinates']
+    return location
 
 if __name__ == '__main__':
-    # test_print()
-    read_weather_data()
+    find_location()
+    # read_weather_data()
