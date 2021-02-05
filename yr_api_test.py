@@ -61,7 +61,34 @@ def parse_timeseries():
 
     return weather_data
 
+def parse_time(time):
+    """
+    time: str 'hh:mm:ss'
+    return: str 'hh:mm'
+    """
+    timelist = time.split(':')
+    return timelist[0] + ':' + timelist[1]
+
+def parse_date(date):
+    """
+    date: str 'yyyy-mm-dd'
+    return: str 'dd.mm.yyyy'
+    """
+    datelist = date.split('-')
+    return datelist[2] + '.' + datelist[1] + '.' + datelist[0]
+
+def print_weather_data():
+    data = parse_timeseries()
+    for key, value in data.items():
+        print(parse_date(key))
+        print('----------')
+        print('time\t', 'temp (C)')
+        for v in value:
+            print(parse_time(v[0]), '\t', v[1])
+
+        print()
+
 if __name__ == '__main__':
     # find_location()
     # read_weather_data()
-    print(parse_timeseries())
+    print_weather_data()
