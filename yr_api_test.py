@@ -36,6 +36,32 @@ def find_location():
     location = json_data['geometry']['coordinates']
     return location
 
+def parse_timeseries():
+    """
+    Parses json weather data to dictionary in form {date: [(time_0, air_temperature), (time_1, air_temperature), ... ] }
+    """
+    # json_data = read_weather_data()
+
+    # Vähennetään netin yli tapahtuvaa tiedonsiirtoa ja luetaan data tiedostosta
+    f = open('./data.json', 'r')
+    json_data = json.loads(f.read())
+    f.close()
+
+    timeseries = json_data['properties']['timeseries']
+
+    weather_data = {} # a dictionary to store data as a {date: [time]}
+
+    for t in timeseries:
+        air_temperature = t['data']['instant']['details']['air_temperature']
+        date, time = t['time'].strip('Z').split('T')
+        if date not in weather_data.keys():
+            weather_data[date] = [(time, air_temperature)]
+        else:
+            weather_data[date].append((time, air_temperature))
+
+    return weather_data
+
 if __name__ == '__main__':
-    find_location()
+    # find_location()
     # read_weather_data()
+    print(parse_timeseries())
